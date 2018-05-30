@@ -1,26 +1,30 @@
 package appiumAMFAM;
-//package <set your test package>;
+
 import com.experitest.client.*;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.testng.annotations.*;
-/**
- *
-*/
-public class TC01 {
-    private String host = "localhost";
-    private int port = 8889;
-    private String projectBaseDirectory = "C:\\Users\\amit.nahum\\workspace\\project8";
+
+public class TC01 extends BaseGridTest{
+
     protected Client client = null;
 
     @BeforeMethod
-    public void setUp(){
-        client = new Client(host, port, true);
-        client.setProjectBaseDirectory(projectBaseDirectory);
+    @Parameters("OS")
+    public void setUp(String OS) throws FileNotFoundException, IOException{
+    	initCloudProperties();
+    	String DeviceQ = "@os = '"+OS+"'";
+    	GridClient grid = new GridClient(getProperty("accessKey",cloudProperties),getProperty("url", cloudProperties));
+        client = grid.lockDeviceForExecution("TC01", DeviceQ, 30, 100000);
         client.setReporter("xml", "reports", "EHI");
     }
 
     @Test(groups = {"seetest"})
     public void testEHI(){
-        client.setDevice("adb:HUAWEI HUAWEI GRA-L09 A0141");
         client.launch("https://www.amfam.com", true, true);
         if(client.swipeWhileNotFound("Down", 400, 2000, "WEB", "xpath=//*[@name='zipCode']", 0, 1000, 5, false)){
             // If statement
@@ -73,7 +77,7 @@ public class TC01 {
         client.click("WEB", "xpath=//*[@nodeName='BUTTON' and @id='addVehicleByVIN']", 0, 1);
         client.click("WEB", "xpath=//*[@nodeName='LABEL' and contains(@text,'No')]", 0, 1);
         client.click("WEB", "xpath=//*[@nodeName='BUTTON' and @css='BUTTON.btn.btn-primary']", 0, 1);
-        if(client.waitForElement("WEB", "xpath=//*[contains(@text,'2011 Acura Rdx 4d 2wd') and @css='H3.ng-binding']", 0, 10000)){
+        if(client.waitForElement("WEB", "xpath=//*[contains(@text,'2011ï¿½Acuraï¿½Rdx 4d 2wd') and @css='H3.ng-binding']", 0, 10000)){
             // If statement
         }
         client.hybridSelect("", 0, "xpath", "xpath=//*[@nodeName='SELECT' and @id='vehicleUse']", "Pleasure");
