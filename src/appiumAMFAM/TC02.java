@@ -2,65 +2,47 @@ package appiumAMFAM;
 
 //package <set your test package>;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSElement;
 import io.appium.java_client.remote.MobileBrowserType;
 import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.MobilePlatform;
-
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.experitest.appium.SeeTestClient;
-import com.experitest.selenium.MobileWebDriver;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import java.net.URL;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 
-public class TC02 extends BaseGridTest{
+public class TC02 {
   private String reportDirectory = "reports";
   private String reportFormat = "xml";
   private String testName = "Untitled";
   private SeeTestClient client;
-  protected RemoteWebDriver driver = null;
-  DesiredCapabilities dc = new DesiredCapabilities(); 
-   
+  protected IOSDriver<IOSElement> driver = null;
+
+  DesiredCapabilities dc = new DesiredCapabilities();
+  
   @BeforeTest
-  @Parameters("OS")
-  public void setUp(String OS) throws FileNotFoundException, IOException {
-	  initCloudProperties();
+  public void setUp() throws MalformedURLException {
       dc.setCapability("doNotGoHomeOnQuit", true);
       dc.setCapability("generateReport", false);
       dc.setCapability("takeScreenshots", false);
 	  dc.setCapability("dontGoHomeOnQuit", true);
-	 // dc.setCapability("TestName", "TC02");
-	  dc.setCapability("accessKey", getProperty("accessKey", cloudProperties));
-	  if(OS.equals("IOS")) {
-    	  dc.setBrowserName(MobileBrowserType.SAFARI);
-          driver = new IOSDriver<IOSElement>(new URL(getProperty("url", cloudProperties)+"/wd/hub"), dc);
-
-	  }else {
-    	  dc.setBrowserName(MobileBrowserType.CHROME);
-          driver = new AndroidDriver<AndroidElement>(new URL(getProperty("url", cloudProperties)+"/wd/hub"), dc);
-
-	  }
+      dc.setCapability(MobileCapabilityType.UDID, "569801f701a84ceedc3d0458297cea7dc353680a");
+      dc.setBrowserName(MobileBrowserType.SAFARI);
+      driver = new IOSDriver<>(new URL("http://localhost:4723/wd/hub"), dc);
       client = new SeeTestClient(driver);
       driver.setLogLevel(Level.INFO);
   }
 
   @Test
   public void testUntitled() {
-	  driver.get("https://www.amfam.com");
+	  driver.get("www.amfam.com");
 	  client.swipeWhileNotFound("DOWN", 300, 500, "WEB", "//*[@name='zipCode']", 0, 1000, 3, true);
 	  driver.findElement(By.xpath("//*[@name='zipCode']")).sendKeys("63005");
 	  driver.findElement(By.xpath("//*[@name='servLineCat' and @onScreen='true']"));

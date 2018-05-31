@@ -1,33 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]" parallel="tests">
-  <parameter name="OS" value="ANDROID"/>
-  <test name="AppiumAMFAMAndroid(failed)" parallel="tests">
-    <parameter name="OS" value="ANDROID"/>
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
+  <test name="Default test(failed)">
     <classes>
-      <class name="appiumAMFAM.TC02">
+      <class name="appiumAMFAM.TC03">
         <methods>
-          <include name="setUp"/>
-          <include name="setUp"/>
           <include name="testUntitled"/>
           <include name="tearDown"/>
-          <include name="tearDown"/>
-        </methods>
-      </class> <!-- appiumAMFAM.TC02 -->
-    </classes>
-  </test> <!-- AppiumAMFAMAndroid(failed) -->
-  <test name="AppiumAMFAMIOS(failed)" parallel="tests">
-    <parameter name="OS" value="IOS"/>
-    <classes>
-      <class name="appiumAMFAM.TC02">
-        <methods>
           <include name="setUp"/>
-          <include name="setUp"/>
-          <include name="testUntitled"/>
-          <include name="tearDown"/>
-          <include name="tearDown"/>
         </methods>
-      </class> <!-- appiumAMFAM.TC02 -->
+      </class> <!-- appiumAMFAM.TC03 -->
     </classes>
-  </test> <!-- AppiumAMFAMIOS(failed) -->
-</suite> <!-- Failed suite [Suite] -->
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->
